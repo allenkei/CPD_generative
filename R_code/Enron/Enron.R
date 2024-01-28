@@ -106,7 +106,7 @@ save_to_numpy(y_list, "Enron.npy") # Python
 # EXPERIMENTS #
 ###############
 
-source("EVAL.R") # FILE DIRECTORY
+source("/home/yikkie/CPD_nn/EVAL.R")
 
 library(CPDstergm)
 result <- CPD_STERGM(y_list, directed=FALSE, network_stats=c("edges", "isolates", "triangles"))
@@ -125,7 +125,7 @@ seq_date <- seq_date[1:100] # remove the last one
 
 library(reticulate)
 np <- import("numpy")
-mu_output <- np$load("mu_par_Enron.npy") # PARAMETER DIRECTORY
+mu_output <- np$load("/home/yikkie/CPD_nn/Enron/mu_par_Enron.npy")
 
 # calculate sequential differences
 tau <- dim(mu_output)[1] - 1
@@ -170,7 +170,7 @@ est_CP <- est_CP + 1 # the 1st delta_mu indicates t=2 is change point
 #################
 # 8 by 5
 
-par(mar=c(2, 4, 2, 1), fig=c(0,1,0,0.82))
+par(mar=c(4, 4, 2, 1), fig=c(0,1,0,0.82))
 plot(1:length(delta_mu), delta_mu, type='l',ylab="", xlab="", xaxt="n", yaxt="n")
 abline(h = threshold, col='red',lwd=2)
 xtick <- est_CP-1 # the xtick is for delta_mu, so minus 1
@@ -179,6 +179,7 @@ for(i in 1:3){ # There are four change points
   text(x=xtick[i]-3,  par("usr")[3]-0.5, labels = seq_date[est_CP[i]], cex=0.8, xpd=TRUE)
 }
 text(x=xtick[4]+3,  par("usr")[3]-0.5, labels = seq_date[est_CP[4]], cex=0.8, xpd=TRUE) # The last one
+title(xlab="Detected Change Points",ylab="Magnitude")
 
 ytick <- c(0,2,4,6,8)
 axis(side=2, at=ytick, labels = FALSE)

@@ -1,7 +1,7 @@
 library(CPDstergm)
 library(reticulate)
 
-data("MITphone") # DATA FROM library(CPDstergm)
+data("MITphone")
 
 
 save_to_numpy_MITphone <- function(data_list, file_name){
@@ -24,7 +24,7 @@ save_to_numpy_MITphone(MITphone, "MITphone.npy") # Python
 
 
 library(CPDstergm)
-source("EVAL.R") # FILE DIRECTORY
+source("/home/yikkie/CPD_nn/EVAL.R")
 
 data("MITphone")
 result <- CPD_STERGM(MITphone, directed=FALSE, network_stats=c("edges", "isolates", "triangles"))
@@ -46,7 +46,7 @@ seq_date <- seq(as.Date("2004-09-15"), as.Date("2005-05-04"), by="days"); tau <-
 
 library(reticulate)
 np <- import("numpy")
-mu_output <- np$load("mu_par_MIT.npy") # PARAMETER DIRECTORY
+mu_output <- np$load("/home/yikkie/CPD_nn/MITphone/mu_par_MIT.npy")
 
 # calculate sequential differences
 tau <- dim(mu_output)[1] - 1
@@ -93,13 +93,14 @@ est_CP <- est_CP + 1 # the 1st delta_mu indicates t=2 is change point
 #################
 # 8 by 5
 
-par(mar=c(2, 4, 2, 1), fig=c(0,1,0,0.82))
+par(mar=c(4, 4, 2, 1), fig=c(0,1,0,0.82))
 plot(1:length(delta_mu), delta_mu, type='l',ylab="", xlab="", xaxt="n", yaxt="n")
 abline(h = threshold, col='red',lwd=2)
 seq_date <- seq(as.Date("2004-09-15"), as.Date("2005-05-04"), by="days")
 xtick <- est_CP-1 # the xtick is for delta_mu, so minus 1
 axis(side=1, at=xtick, labels = F, lwd = 0, lwd.ticks = 1) # est_CP is actual time
 text(x=xtick,  par("usr")[3]-1, labels = seq_date[est_CP], cex=0.8, xpd=TRUE)
+title(xlab="Detected Change Points",ylab="Magnitude")
 
 ytick <- c(0,2,4,6,8)
 axis(side=2, at=ytick, labels = FALSE)
