@@ -585,7 +585,7 @@ torch.save(output_holder, os.path.join(output_dir, 'result_table_all.pt') ) # sa
 
 # print result for table
 print('mean perforamnce:\n', np.mean(output_holder.cpu().numpy(),axis=0)[0:4])
-print('std perforamnce:\n', np.std(test.cpu().numpy(),axis=0)[0:4])
+print('std perforamnce:\n', np.std(output_holder.cpu().numpy(),axis=0)[0:4])
 
 
 
