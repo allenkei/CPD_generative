@@ -40,7 +40,7 @@ def parse_args():
   parser.add_argument('--true_CP_half', default=[14,26,39]) 
   parser.add_argument('--true_CP_full', default=[26,51,76]) 
   parser.add_argument('--data_dir', default='./data/')
-  parser.add_argument('-f', required=False) # needed in Colab 
+  parser.add_argument('-f', required=False)
 
   return parser.parse_args()
 
