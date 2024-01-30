@@ -38,6 +38,26 @@ write.csv(result_n100rho05, 'result_n100rho05.csv')
 
 
 
+# print result
+apply(sim_result1, 2, mean)
+apply(sim_result1, 2, sd) * sqrt(9/10)
+
+apply(sim_result2, 2, mean)
+apply(sim_result2, 2, sd) * sqrt(9/10)
+
+apply(sim_result3, 2, mean)
+apply(sim_result3, 2, sd) * sqrt(9/10)
+
+apply(sim_result4, 2, mean)
+apply(sim_result4, 2, sd) * sqrt(9/10)
+
+apply(sim_result5, 2, mean)
+apply(sim_result5, 2, sd) * sqrt(9/10)
+
+apply(sim_result6, 2, mean)
+apply(sim_result6, 2, sd) * sqrt(9/10)
+
+
 
 # visualization (9 by 6 inches)
 
