@@ -36,3 +36,23 @@ result_n50p6[6,] <- colMeans(sim_result6)
 
 write.csv(result_n50p6, 'result_n50p6.csv')
 
+
+# print result
+apply(sim_result1, 2, mean)
+apply(sim_result1, 2, sd) * sqrt(9/10)
+
+apply(sim_result2, 2, mean)
+apply(sim_result2, 2, sd) * sqrt(9/10)
+
+apply(sim_result3, 2, mean)
+apply(sim_result3, 2, sd) * sqrt(9/10)
+
+apply(sim_result4, 2, mean)
+apply(sim_result4, 2, sd) * sqrt(9/10)
+
+apply(sim_result5, 2, mean)
+apply(sim_result5, 2, sd) * sqrt(9/10)
+
+apply(sim_result6, 2, mean)
+apply(sim_result6, 2, sd) * sqrt(9/10)
+
