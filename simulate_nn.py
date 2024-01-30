@@ -15,7 +15,7 @@ def parse_args():
   parser.add_argument('--num_time', default=100)
   parser.add_argument('--num_node', default=50, type=int)
   parser.add_argument('--data_dir', default='./simulated_data/')
-  parser.add_argument('-f', required=False) # needed in Colab 
+  parser.add_argument('-f', required=False) 
   return parser.parse_args()
 
 
@@ -81,11 +81,11 @@ additions = torch.cat(additions, dim=0)
 
 
 for gen_iter in range(args.num_seq):
-  z = torch.empty(args.num_time, args.latent_dim).normal_(mean=0,std=0.1) # std=0.1 
+  z = torch.empty(args.num_time, args.latent_dim).normal_(mean=0,std=0.1) 
   z = z + additions
   #print('z:\n',z)
   
-  z = z.unsqueeze(0) # add a dimension as batch_size for LSTM
+  z = z.unsqueeze(0) 
 
   adjacency_matrices = model(z) # T by n by n
   print('adjacency_matrices.shape:',adjacency_matrices.shape)
