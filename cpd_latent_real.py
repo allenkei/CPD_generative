@@ -38,7 +38,7 @@ def parse_args():
   parser.add_argument('--num_node', default=96, type=int) # MITphone: 96, Enron: 100
   parser.add_argument('--num_time', default=232, type=int) # MITphone: 232, Enron: 100
   parser.add_argument('--data_dir', default='./data/')
-  parser.add_argument('-f', required=False) # needed in Colab 
+  parser.add_argument('-f', required=False)
 
   return parser.parse_args()
 
