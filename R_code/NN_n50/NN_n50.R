@@ -19,7 +19,7 @@ for(seq_iter in 1:10){
 };rm(temp, NN_one_seq, np_data)
 
 
-result_n50 <- matrix(0, nrow=6, ncol=4)
+result_n50 <- matrix(0, nrow=7, ncol=4)
 
 
 network_stats=c("edges", "mutual")
@@ -48,6 +48,9 @@ sim_result6 <- Evaluation_kerSeg_on_stats(NN_seq10T100n50, p_threshold=0.001, nu
 result_n50[6,] <- colMeans(sim_result6)
 
 
+sim_result7 <- Evaluation_RDPG(NN_seq10T100n50, M=50, d=5, delta=5)
+result_n50[7,] <- colMeans(sim_result7)
+
 write.csv(result_n50, 'result_n50.csv')
 
 
@@ -71,5 +74,7 @@ apply(sim_result5, 2, sd) * sqrt(9/10)
 apply(sim_result6, 2, mean)
 apply(sim_result6, 2, sd) * sqrt(9/10)
 
+apply(sim_result7, 2, mean)
+apply(sim_result7, 2, sd) * sqrt(9/10)
 
 

@@ -4,8 +4,8 @@ install_github("allenkei/CPDstergm")
 library(CPDstergm)
 source("EVAL.R") # FILE DIRECTORY
 
-load("TERGM_seq10T100n100p6.RData") # DATA DIRECTORY
-result_n100p6 <- matrix(0, nrow=6, ncol=4)
+load("STERGM_seq10T100n100p6.RData") # DATA DIRECTORY
+result_n100p6 <- matrix(0, nrow=7, ncol=4)
 
 
 network_stats=c("edges", "mutual")
@@ -34,6 +34,10 @@ sim_result6 <- Evaluation_kerSeg_on_stats(STERGM_seq10T100n100p6, p_threshold=0.
 result_n100p6[6,] <- colMeans(sim_result6)
 
 
+sim_result7 <- Evaluation_RDPG(STERGM_seq10T100n100p6, M=50, d=5, delta=5)
+result_n100p6[7,] <- colMeans(sim_result7)
+
+
 write.csv(result_n100p6, 'result_n100p6.csv')
 
 
@@ -55,6 +59,9 @@ apply(sim_result5, 2, sd) * sqrt(9/10)
 
 apply(sim_result6, 2, mean)
 apply(sim_result6, 2, sd) * sqrt(9/10)
+
+apply(sim_result7, 2, mean)
+apply(sim_result7, 2, sd) * sqrt(9/10)
 
 
 # visualization (9 by 6 inches)

@@ -597,3 +597,109 @@ Evaluation_gSeg_on_stats <- function(y_list, p_threshold, num_stats, is_experime
 }
 
 
+
+
+##############################
+# Evaluation Function (RDPG) #
+##############################
+
+
+Evaluation_RDPG <- function(y_list, M, d, delta, is_experiment=FALSE, true_CP=c(26, 51, 76)){
+  
+  library(changepoints)
+  
+  RDPG_CPD <- function(one_seq, M.=M, d.=d, delta.=delta){
+    # one_seq: list of 100, with matrix n by n
+    # M: number of random intervals for WBS
+    # d: parameter for scaled PCA algorithm
+    set.seed(1)
+    
+    one_seq <- do.call(cbind, lapply(one_seq, as.vector)) # matrix of n*n by 100
+    intervals = WBS.intervals(M=M., lower = 1, upper = ncol(one_seq))
+    WBS_result = WBS.nonpar.RDPG(one_seq, lowerdiag = FALSE, d.,
+                                 Alpha = intervals$Alpha, Beta = intervals$Beta, delta)
+    cpt_hat = tuneBSnonparRDPG(WBS_result, one_seq, lowerdiag = FALSE, d.)
+    return(cpt_hat)
+  }
+  
+  
+  if(is_experiment){
+    
+    est_CP <- RDPG_CPD(y_list)
+    return(est_CP)
+    
+  }else{
+    # y_list: 10 by 100 by n by n
+    repetition_iteration <- length(y_list)
+    result <- matrix(NA, nrow=repetition_iteration, ncol = 4)
+    
+    for(rep_iter in 1:repetition_iteration){
+      
+      y_data <- y_list[[rep_iter]]
+      
+      est_CP <- RDPG_CPD(y_data)
+      num_CP <- length(est_CP)
+      
+      gt_CP_corrected <- c(1, true_CP, 100) 
+      est_CP_corrected <- c(1, est_CP, 100)
+      
+      gt_list <- est_list <- list();
+      for(i in 2:length(gt_CP_corrected)){
+        gt_list[[i-1]] <- gt_CP_corrected[i-1]:(gt_CP_corrected[i]-1)
+      }
+      for(i in 2:length(est_CP_corrected)){
+        est_list[[i-1]] <- est_CP_corrected[i-1]:(est_CP_corrected[i]-1)
+      }
+      
+      if(num_CP == 0){
+        dist_est_gt <- Inf
+        dist_gt_est <- -Inf
+        covering_metric <- 0
+      }else{
+        
+        holder <- c()
+        for(i in true_CP){
+          dist_diff <- c()
+          for(j in est_CP){dist_diff <- c(dist_diff, abs(j-i))}
+          holder <- c(holder, min(dist_diff))
+        }
+        dist_est_gt <- max(holder)
+        
+        holder <- c()
+        for(i in est_CP){
+          dist_diff <- c()
+          for(j in true_CP){dist_diff <- c(dist_diff, abs(j-i))}
+          holder <- c(holder, min(dist_diff))
+        }
+        dist_gt_est <- max(holder)
+        
+        covering_metric <- 0
+        for(i in 1:length(gt_list)){
+          A <- gt_list[[i]]
+          jaccard <- c()
+          for(j in 1:length(est_list)){
+            A_prime <- est_list[[j]]
+            jaccard <- c(jaccard,length(intersect(A,A_prime))/length(union(A,A_prime)))
+          }
+          covering_metric <- covering_metric + length(A)*max(jaccard)
+        }
+        covering_metric <- covering_metric/100
+      }
+      
+      abs_error <- abs(num_CP - length(true_CP))
+      
+      result[rep_iter, 1] <- abs_error
+      result[rep_iter, 2] <- dist_est_gt
+      result[rep_iter, 3] <- dist_gt_est
+      result[rep_iter, 4] <- covering_metric
+    }
+    
+    return(result)
+    
+  }
+  
+}
+
+
+
+
