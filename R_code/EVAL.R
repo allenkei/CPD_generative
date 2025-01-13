@@ -625,7 +625,7 @@ Evaluation_RDPG <- function(y_list, M, d, delta, is_experiment=FALSE, true_CP=c(
   
   if(is_experiment){
     
-    est_CP <- RDPG_CPD(y_list)
+    est_CP <- RDPG_CPD(y_list, M.=M, d.=d, delta.=delta)
     return(est_CP)
     
   }else{
