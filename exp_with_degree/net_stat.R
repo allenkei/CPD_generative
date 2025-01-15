@@ -72,7 +72,7 @@ for(i in 1:10){
     geom_line(data = true_graph_df, aes(x = Degree, y = Count, group = 1), 
               color = "red", linewidth = 1) + 
     scale_x_discrete(breaks = paste0(seq(0, max_bin, by = 10)), limits = paste0(0:max_bin)) + 
-    scale_y_continuous(breaks = seq(5, 20, by = 5), limits = c(0, 20))
+    scale_y_continuous(breaks = seq(0, 20, by = 5), limits = c(0, 20))
   
     plots[[length(plots) + 1]] <- plot
 }

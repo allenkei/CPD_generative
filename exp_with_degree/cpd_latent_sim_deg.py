@@ -422,10 +422,15 @@ def learn_one_seq_penalty(args, adj_train, adj_test, pen_iter, seq_iter, half):
       CV_holder.append(CV.detach().cpu().numpy().item())
       if CV > best_CV and learn_iter > 10:
         best_mu = mu.detach().clone()
-        best_adj_prob = adj_prob.detach().clone()
         best_loglik = loglik.detach().clone()
         best_CV = CV.detach().clone()
         best_CV_iter = learn_iter
+
+        with torch.no_grad():
+          # this is the sample z drawn from marginal p(z) NOT FROM posterior p(z|y)
+          z = mu_repeat + torch.randn(90 * args.num_samples, args.latent_dim).to(device) 
+          best_adj_prob = model.forward(z) # Tm by n by n
+          best_adj_prob = best_adj_prob.detach().clone()
 
     ##############
     # PRINT INFO #
