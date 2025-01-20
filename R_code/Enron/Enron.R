@@ -230,7 +230,7 @@ text(par("usr")[1]+1, 0.45, labels='gSeg', pos=2, xpd=TRUE, cex=0.8)
 # Random Dot Product Graph #
 ############################
 
-cal_log_likelihood <- function(A_seq, change_points, d, excluded_indices=seq(15,100,by=15)) {
+cal_log_likelihood <- function(A_seq, change_points, d, excluded_indices=seq(7,100,by=7)) {
   
   change_points <- c(change_points,100)
   log_likelihood <- 0

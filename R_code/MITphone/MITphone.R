@@ -149,7 +149,7 @@ text(par("usr")[1]+1, 0.45, labels='gSeg', pos=2, xpd=TRUE, cex=0.8)
 ############################
 
 
-cal_log_likelihood <- function(A_seq, change_points, d, excluded_indices=seq(30,230,by=30)) {
+cal_log_likelihood <- function(A_seq, change_points, d, excluded_indices=seq(25,230,by=25)) {
   
   change_points <- c(change_points,232)
   log_likelihood <- 0
