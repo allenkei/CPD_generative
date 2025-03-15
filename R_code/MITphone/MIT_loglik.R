@@ -3,7 +3,7 @@ library(Matrix)
 library(CPDstergm)
 data("MITphone")
 
-set.seed(1)
+
 n <- dim(MITphone[[1]])[1]
 num_T <- length(MITphone)
 
@@ -14,20 +14,6 @@ rdpg_result <- c(94, 114, 178)
 result_est_CP <- c(29,  40,  49,  63, 94, 191)
 kerSeg_result <- c(34,  94, 113, 200)
 gSeg_result <- c(48,  88,  95, 118, 178)
-
-
-
-
-#A_seq <- MITphone
-#change_points <- est_CP
-
-
-#change_points <- c(change_points, length(A_seq) + 1)
-#log_likelihood <- 0
-
-
-#start <- 1
-#cp_idx <- 1
 
 
 
@@ -87,7 +73,7 @@ log_lik_holder <- matrix(NA, nrow=6, ncol = length(gap_choice))
 
 
 for(iter in 1:length(gap_choice)){
-  
+  set.seed(1)
   gap <- gap_choice[iter]
   excluded_indices=seq(gap,230,by=gap)
   

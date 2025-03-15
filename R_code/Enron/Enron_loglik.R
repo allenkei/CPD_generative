@@ -10,7 +10,7 @@ Enron <- list()
 for(iter in 1:dim(data)[1]){ Enron[[iter]] <- data[iter,,] }
 
 
-set.seed(1)
+
 n <- dim(Enron[[1]])[1]
 num_T <- length(Enron)
 
@@ -21,20 +21,6 @@ rdpg_result <- c(19, 32, 51, 63, 68, 80, 88)
 result_est_CP <- c(64, 72, 80, 88)
 kerSeg_result <- c(6, 21, 51, 89, 95)
 gSeg_result <- c(6, 20, 83, 89, 95)
-
-
-
-#A_seq <- Enron
-#change_points <- est_CP
-
-
-#change_points <- c(change_points, length(A_seq) + 1)
-#log_likelihood <- 0
-
-
-#start <- 1
-#cp_idx <- 1
-
 
 
 
@@ -53,8 +39,8 @@ cal_log_likelihood <- function(A_seq, change_points, excluded_indices) {
     
     if (length(segment_indices) > 0) {
       
-      A_bar <- Reduce("+", A_seq[segment_indices]) / length(segment_indices)  # Mean adjacency matrix
-      A_bar <- ifelse(A_bar > 0.05, 1, 0)
+      A_bar <- Reduce("+", A_seq[segment_indices]) / length(segment_indices)  # Mean adjacency matrix # quantile( A_bar[which(A_bar>0,arr.ind = T)], 0.1 )
+      A_bar <- ifelse(A_bar > 0.1, 1, 0) # 0.05
       A_bar <- A_bar + diag(n)
       
       
@@ -86,14 +72,14 @@ cal_log_likelihood <- function(A_seq, change_points, excluded_indices) {
 
 
 
-gap_choice <- c(6,8,10,12)
+gap_choice <- c(3,6,9,12)
 
 
 log_lik_holder <- matrix(NA, nrow=6, ncol = length(gap_choice))
 
 
 for(iter in 1:length(gap_choice)){
-  
+  set.seed(1)
   gap <- gap_choice[iter]
   excluded_indices=seq(gap,100,by=gap)
   
@@ -109,10 +95,7 @@ for(iter in 1:length(gap_choice)){
 
 t(log_lik_holder)
 
-
 c(which.max(log_lik_holder[,1]), which.max(log_lik_holder[,2]), which.max(log_lik_holder[,3]), which.max(log_lik_holder[,4]))
-
-
 
 
 
