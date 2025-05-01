@@ -21,7 +21,7 @@ for(seq_iter in 1:10){
 }
 
 
-result_n100 <- matrix(0, nrow=7, ncol=4)
+result_n100 <- matrix(0, nrow=8, ncol=4)
 
 
 network_stats=c("edges", "mutual")
@@ -54,6 +54,10 @@ sim_result7 <- Evaluation_RDPG(NN_seq10T100n100, M=50, d=5, delta=5)
 result_n100[7,] <- colMeans(sim_result7)
 
 
+sim_result8 <- Evaluation_NBS(NN_seq10T100n100, M=15, delta=5)
+result_n100[8,] <- colMeans(sim_result8)
+
+
 write.csv(result_n100, 'result_n100.csv')
 
 
@@ -79,6 +83,8 @@ apply(sim_result6, 2, sd) * sqrt(9/10)
 apply(sim_result7, 2, mean)
 apply(sim_result7, 2, sd) * sqrt(9/10)
 
+apply(sim_result8, 2, mean)
+apply(sim_result8, 2, sd) * sqrt(9/10)
 
 
 # visualization (9 by 6 inches)

@@ -5,7 +5,7 @@ library(CPDstergm)
 source("EVAL.R") # FILE DIRECTORY
 
 load("SBM_seq10T100n100rho05.RData") # DATA DIRECTORY
-result_n100rho05 <- matrix(0, nrow=7, ncol=4)
+result_n100rho05 <- matrix(0, nrow=8, ncol=4)
 
 
 network_stats=c("edges", "mutual")
@@ -37,6 +37,11 @@ result_n100rho05[6,] <- colMeans(sim_result6)
 sim_result7 <- Evaluation_RDPG(SBM_seq10T100n100rho05, M=50, d=5, delta=5)
 result_n100rho05[7,] <- colMeans(sim_result7)
 
+
+sim_result8 <- Evaluation_NBS(SBM_seq10T100n100rho05, M=15, delta=5)
+result_n100rho05[8,] <- colMeans(sim_result8)
+
+
 write.csv(result_n100rho05, 'result_n100rho05.csv')
 
 
@@ -63,6 +68,8 @@ apply(sim_result6, 2, sd) * sqrt(9/10)
 apply(sim_result7, 2, mean)
 apply(sim_result7, 2, sd) * sqrt(9/10)
 
+apply(sim_result8, 2, mean)
+apply(sim_result8, 2, sd) * sqrt(9/10)
 
 # visualization (9 by 6 inches)
 

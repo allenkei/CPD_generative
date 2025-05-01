@@ -5,7 +5,7 @@ library(CPDstergm)
 source("EVAL.R") # FILE DIRECTORY
 
 load("STERGM_seq10T100n50p6.RData") # DATA DIRECTORY
-result_n50p6 <- matrix(0, nrow=7, ncol=4)
+result_n50p6 <- matrix(0, nrow=8, ncol=4)
 
 
 network_stats=c("edges", "mutual")
@@ -38,6 +38,10 @@ sim_result7 <- Evaluation_RDPG(STERGM_seq10T100n50p6, M=50, d=5, delta=5)
 result_n50p6[7,] <- colMeans(sim_result7)
 
 
+sim_result8 <- Evaluation_NBS(STERGM_seq10T100n50p6, M=15, delta=5)
+result_n50p6[8,] <- colMeans(sim_result8)
+
+
 write.csv(result_n50p6, 'result_n50p6.csv')
 
 
@@ -63,3 +67,5 @@ apply(sim_result6, 2, sd) * sqrt(9/10)
 apply(sim_result7, 2, mean)
 apply(sim_result7, 2, sd) * sqrt(9/10)
 
+apply(sim_result8, 2, mean)
+apply(sim_result8, 2, sd) * sqrt(9/10)
