@@ -95,8 +95,5 @@ for(iter in 1:length(gap_choice)){
 
 t(log_lik_holder)
 
-c(which.max(log_lik_holder[,1]), which.max(log_lik_holder[,2]), which.max(log_lik_holder[,3]), which.max(log_lik_holder[,4]))
-
-
 
 

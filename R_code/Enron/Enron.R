@@ -172,7 +172,7 @@ est_CP <- est_CP + 1 # the 1st delta_mu indicates t=2 is change point
 ###############
 
 # print actual date
-#seq_date[est_CP]
+seq_date[est_CP]
 seq_date[nbs_result]
 seq_date[rdpg_result]
 seq_date[result$est_CP]
@@ -211,7 +211,6 @@ par(mar=c(0, 4, 0, 1), fig=c(0,1,0.59,0.66), new=T)
 plot(NULL, ylim=c(0,1), xlim=c(1,tau), ylab="", xlab="", xaxt="n", yaxt="n")
 for(i in nbs_result){abline(v=i-1, col='blue', lwd=2)}
 text(par("usr")[1]+1, 0.45, labels='CPDnbs', pos=2, xpd=TRUE, cex=0.8)
-
 
 par(mar=c(0, 4, 0, 1), fig=c(0,1,0.67,0.74), new=T)
 plot(NULL, ylim=c(0,1), xlim=c(1,tau), ylab="", xlab="", xaxt="n", yaxt="n")
