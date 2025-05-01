@@ -119,6 +119,7 @@ seq_date <- seq_date[1:100] # remove the last one
 gSeg_result <- Evaluation_gSeg_on_stats(y_list, p_threshold=0.05, num_stats=3, is_experiment=TRUE)
 kerSeg_result <- Evaluation_kerSeg_on_stats(y_list, p_threshold=0.001, num_stats=3, is_experiment=TRUE)
 rdpg_result <- Evaluation_RDPG(y_list, M=100, d=5, delta=5, is_experiment = TRUE)
+nbs_result <- Evaluation_NBS(y_list, M=15, delta=5, is_experiment=TRUE)
 
 
 ####################
@@ -172,6 +173,7 @@ est_CP <- est_CP + 1 # the 1st delta_mu indicates t=2 is change point
 
 # print actual date
 #seq_date[est_CP]
+seq_date[nbs_result]
 seq_date[rdpg_result]
 seq_date[result$est_CP]
 seq_date[kerSeg_result]
@@ -181,6 +183,7 @@ seq_date[gSeg_result]
 #write.table(kerSeg_result, file = "kerSeg.txt", row.names = FALSE, col.names = FALSE)
 #write.table(result$est_CP, file = "CPDstergm.txt", row.names = FALSE, col.names = FALSE)
 #write.table(rdpg_result, file = "CPDrdpg.txt", row.names = FALSE, col.names = FALSE)
+#write.table(nbs_result, file = "CPDnbs.txt", row.names = FALSE, col.names = FALSE)
 #write.table(est_CP, file = "CPDlatent.txt", row.names = FALSE, col.names = FALSE)
 
 
@@ -189,19 +192,25 @@ seq_date[gSeg_result]
 #################
 # 8 by 5
 
-par(mar=c(4, 4, 2, 1), fig=c(0,1,0,0.74))
+par(mar=c(4, 4, 2, 1), fig=c(0,1,0,0.66))
 plot(1:length(delta_mu), delta_mu, type='l', ylab="", xlab="", xaxt="n", yaxt="n")
 abline(h = threshold, col='red', lwd=2)
 xtick <- est_CP-1 # the xtick is for delta_mu, so minus 1
 axis(side=1, at=xtick, labels = F, lwd = 0, lwd.ticks = 1) # est_CP is actual time
 for(i in 1:3){ # There are four change points
-  text(x=xtick[i]-3,  par("usr")[3]-0.5, labels = seq_date[est_CP[i]], cex=0.8, xpd=TRUE)
+  text(x=xtick[i]-3,  par("usr")[3]-0.6, labels = seq_date[est_CP[i]], cex=0.8, xpd=TRUE)
 }
-text(x=xtick[4]+3,  par("usr")[3]-0.5, labels = seq_date[est_CP[4]], cex=0.8, xpd=TRUE) # The last one
+text(x=xtick[4]+3,  par("usr")[3]-0.6, labels = seq_date[est_CP[4]], cex=0.8, xpd=TRUE) # The last one
 title(xlab="Detected Change Points",ylab="Magnitude")
 ytick <- c(0,2,4,6)
 axis(side=2, at=ytick, labels = FALSE)
 text(par("usr")[1]-1.7, ytick, labels=ytick, pos=2, xpd=TRUE, cex=0.8)
+
+
+par(mar=c(0, 4, 0, 1), fig=c(0,1,0.59,0.66), new=T)
+plot(NULL, ylim=c(0,1), xlim=c(1,tau), ylab="", xlab="", xaxt="n", yaxt="n")
+for(i in nbs_result){abline(v=i-1, col='blue', lwd=2)}
+text(par("usr")[1]+1, 0.45, labels='CPDnbs', pos=2, xpd=TRUE, cex=0.8)
 
 
 par(mar=c(0, 4, 0, 1), fig=c(0,1,0.67,0.74), new=T)

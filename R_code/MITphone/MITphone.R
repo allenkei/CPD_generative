@@ -1,5 +1,4 @@
 library(CPDstergm)
-library(changepoint)
 library(reticulate)
 
 data("MITphone")
@@ -38,7 +37,8 @@ seq_date <- seq(as.Date("2004-09-15"), as.Date("2005-05-04"), by="days"); tau <-
 
 gSeg_result <- Evaluation_gSeg_on_stats(MITphone, p_threshold=0.05, num_stats=3, is_experiment=TRUE)
 kerSeg_result <- Evaluation_kerSeg_on_stats(MITphone, p_threshold=0.001, num_stats=3, is_experiment=TRUE)
-rdpg_result <- Evaluation_RDPG(MITphone, M=100, d=5, delta=5, is_experiment = TRUE)
+rdpg_result <- Evaluation_RDPG(MITphone, M=100, d=5, delta=5, is_experiment=TRUE)
+nbs_result <- Evaluation_NBS(MITphone, M=15, delta=7, is_experiment=TRUE)
 
 
 ####################
@@ -91,7 +91,8 @@ est_CP <- est_CP + 1 # the 1st delta_mu indicates t=2 is change point
 ###############
 
 # print actual date
-#seq_date[est_CP]
+seq_date[est_CP]
+seq_date[nbs_result]
 seq_date[rdpg_result]
 seq_date[result$est_CP]
 seq_date[kerSeg_result]
@@ -101,6 +102,7 @@ seq_date[gSeg_result]
 #write.table(kerSeg_result, file = "kerSeg.txt", row.names = FALSE, col.names = FALSE)
 #write.table(result$est_CP, file = "CPDstergm.txt", row.names = FALSE, col.names = FALSE)
 #write.table(rdpg_result, file = "CPDrdpg.txt", row.names = FALSE, col.names = FALSE)
+#write.table(nbs_result, file = "CPDnbs.txt", row.names = FALSE, col.names = FALSE)
 #write.table(est_CP, file = "CPDlatent.txt", row.names = FALSE, col.names = FALSE)
 
 #################
@@ -108,7 +110,7 @@ seq_date[gSeg_result]
 #################
 # 8 by 5
 
-par(mar=c(4, 4, 2, 1), fig=c(0,1,0,0.74))
+par(mar=c(4, 4, 2, 1), fig=c(0,1,0,0.66))
 
 plot(1:length(delta_mu), delta_mu, type='l', ylab="", xlab="", xaxt="n", yaxt="n")
 abline(h = threshold, col='red', lwd=2)
@@ -121,6 +123,11 @@ ytick <- c(0,2,4,6,8)
 axis(side=2, at=ytick, labels = FALSE)
 text(par("usr")[1]-1.7, ytick, labels=ytick, pos=2, xpd=TRUE, cex=0.8)
 
+
+par(mar=c(0, 4, 0, 1), fig=c(0,1,0.59,0.66), new=T)
+plot(NULL, ylim=c(0,1), xlim=c(1,tau), ylab="", xlab="", xaxt="n", yaxt="n")
+for(i in nbs_result){abline(v=i-1, col='blue', lwd=2)}
+text(par("usr")[1]+1, 0.45, labels='CPDnbs', pos=2, xpd=TRUE, cex=0.8)
 
 par(mar=c(0, 4, 0, 1), fig=c(0,1,0.67,0.74), new=T)
 plot(NULL, ylim=c(0,1), xlim=c(1,tau), ylab="", xlab="", xaxt="n", yaxt="n")
@@ -141,5 +148,3 @@ par(mar=c(0, 4, 0, 1), fig=c(0,1,0.91,0.98), new=T)
 plot(NULL, ylim=c(0,1), xlim=c(1,tau), ylab="", xlab="", xaxt="n", yaxt="n")
 for(i in gSeg_result){abline(v=i-1, col='blue', lwd=2)}
 text(par("usr")[1]+1, 0.45, labels='gSeg', pos=2, xpd=TRUE, cex=0.8)
-
-

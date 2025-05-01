@@ -40,7 +40,7 @@ cal_log_likelihood <- function(A_seq, change_points, excluded_indices) {
     if (length(segment_indices) > 0) {
       
       A_bar <- Reduce("+", A_seq[segment_indices]) / length(segment_indices)  # Mean adjacency matrix # quantile( A_bar[which(A_bar>0,arr.ind = T)], 0.1 )
-      A_bar <- ifelse(A_bar > 0.1, 1, 0) # 0.05
+      A_bar <- ifelse(A_bar > 0.1, 1, 0)
       A_bar <- A_bar + diag(n)
       
       
